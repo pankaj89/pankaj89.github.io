@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title>SVG/Vector Icon Resizer</title>
+	<link rel="stylesheet" type="text/css" href="assets/style.css">
+</head>
+<body>
+	<h1><img src="assets/svg_resizer.png" width="300px"/> </h1>
+	<h2>SVG / Vector Image Resizer</h2>
+
+	<div class="btn-wrapper" >
+		<input type="file" id="file_upload" accept=".svg,.xml">
+	</div>
+
+	<form id="svg_form">
+		<input type="number" id="resize_value" required placeholder="Enter Resized Value">
+		<button type="button" onclick="exportResizedSvg();">Save</button>
+	</form>
+
+	<div style="display:none;">
+		<a href="data:" id="data" download="svg" class="download-png" target="_blank">Download PNG</a>
+	</div>
+
+	<img src="" id="fromcanvas" style="display:none;"/>
+	<div class="preview" id="svg_preview" style="display:none;"></div>
+
+	<script src="assets/svg_todataurl.js"></script>
+	<script src="assets/script.js"></script>
+</body>
+</html>

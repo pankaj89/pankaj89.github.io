@@ -1,0 +1,32 @@
+html{
+	height: 100%;
+}
+h1, h2{
+	text-align: center;
+}
+h1{
+	font-size: 3em;
+	margin: 20px 0px 0px 0px;
+}
+h2{
+	margin: 10px;
+}
+div.btn-wrapper{
+	width: 150px;
+	height: 36px;
+	margin: 40px auto 0px auto;
+	display: block;
+	position: relative;
+	cursor: pointer;
+}
+div.btn-wrapper:hover label.btn{
+	background-color: #1dbcaf;
+}
+div.btn-wrapper:active label.btn{
+	background-color: #1bb0a3;
+}
+
+form{
+	display: none;
+	text-align: center;
+}
