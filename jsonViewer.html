@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f4f4f4;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .title {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .toolbar button {
+            margin-right: auto;
+        }
+        textarea {
+            flex: 1;
+            width: 100%;
+            padding: 10px;
+            font-size: 12px;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button onclick="formatJSON()" title="Press Ctrl + Enter to format (Cmd + Enter on Mac)">Format</button>
+        <div class="title">
+            Json Viewer
+        </div>
+    </div>
+    <textarea id="jsonInput" placeholder="Paste or type JSON here..."></textarea>
+    <script>
+        String.space = function(n) {
+            return " ".repeat(Math.max(0, n)); // Ensures 'n' is at least 0
+        };
+        function formatJSON() {
+            const textarea = document.getElementById('jsonInput');
+            try {
+                for (var z = textarea.value.replace(/\n/g, " ").replace(/\r/g, " "), y = [], m = 0, s = !1, a = 0, d = z.length; a < d; a++) {
+                    var n = z.charAt(a);
+                    s && n === s ? "\\" !== z.charAt(a - 1) && (s = !1) : s || '"' !== n && "'" !== n ? s || " " !== n && "\t" !== n ? s || ":" !== n ? s || "," !== n ? s || "[" !== n && "{" !== n ? s || "]" !== n && "}" !== n || (m--, n = "\n" + String.space(2 * m) + n) : (m++, n += "\n" + String.space(2 * m)) : n += "\n" + String.space(2 * m) : n += " " : n = "" : s = n;
+                    y.push(n)
+                }
+                textarea.value = y.join("");
+            } catch (error) {
+                alert('Invalid JSON: ' + error.message);
+            }
+        }
+        // Adding the shortcut for Cmd + Enter (Mac) or Ctrl + Enter (Windows)
+        document.addEventListener('keydown', function(event) {
+            if ((event.key === 'Enter') && (event.metaKey || event.ctrlKey)) {
+                event.preventDefault(); // Prevent default Enter action
+                formatJSON(); // Trigger the formatJSON function
+            }
+        });
+    </script>
+</body>
+</html>
