@@ -35,11 +35,17 @@
             font-weight: bold;
             white-space: nowrap; 
         }
-
-
-        .toolbar button {
-            margin-right: 5px;
+        .buttonsContainer .validate {
         }
+        .buttonsContainer .validate.error  {
+            background: #F44336;
+            color: white;
+        }
+        .buttonsContainer .validate.success  {
+            background: #4CAF50;
+            color: white;
+        }
+        
         .toolbar #result {
             margin-right: 5px;
             font-size: 10px;
@@ -60,7 +66,7 @@
     <div class="toolbar">
         <div class="buttonsContainer">
             <button onclick="formatJSON()" title="Press Ctrl + Enter to format (Cmd + Enter on Mac)">Format</button>
-            <button id="validate" title="Check if its a valid JSON" onclick="validateJSON()">Validate</button>
+            <button id="validate" class="validate" title="Check if its a valid JSON" onclick="validateJSON()">Validate</button>
         </div>
         <div class="title">
             Json Viewer and Formatter
@@ -77,13 +83,11 @@
              try {
                 const textarea = document.getElementById('jsonInput');
                 JSON.parse(textarea.value);
-                validate.style.backgroundColor = "green";
-                validate.style.color = "white";
-                validate.title = "Valid JSON"
+                validate.classList.remove("error");
+                validate.classList.add("success");
             } catch (e) {
-                validate.style.backgroundColor = "red";
-                validate.style.color = "white";
-                validate.title = e.message
+                validate.classList.remove("success");
+                validate.classList.add("error");
             }
         }
         function formatJSON() {
@@ -104,9 +108,8 @@
         let initialTextColor = validate.style.color;
         let initialTitle = validate.title;
         function resetUI(){
-            validate.style.backgroundColor = initialBgColor;
-            validate.style.color = initialTextColor;
-            validate.title = initialTitle
+            validate.classList.remove("error");
+            validate.classList.remove("success");
         }
         document.addEventListener('keydown', function(event) {
             if ((event.key === 'Enter') && (event.metaKey || event.ctrlKey)) {
