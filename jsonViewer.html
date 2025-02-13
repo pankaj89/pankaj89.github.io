@@ -15,22 +15,34 @@
             font-family: Arial, sans-serif;
         }
         .toolbar {
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
             padding: 10px;
             background: #f4f4f4;
             border-bottom: 1px solid #ccc;
         }
 
-        .title {
-            flex-grow: 1;
-            text-align: center;
-            font-weight: bold;
+        .buttonsContainer {
+            display: flex;
+            gap: 5px;
         }
 
+        .title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            white-space: nowrap; 
+        }
+
+
         .toolbar button {
-            margin-right: auto;
+            margin-right: 5px;
+        }
+        .toolbar #result {
+            margin-right: 5px;
+            font-size: 10px;
         }
         textarea {
             flex: 1;
@@ -46,16 +58,34 @@
 </head>
 <body>
     <div class="toolbar">
-        <button onclick="formatJSON()" title="Press Ctrl + Enter to format (Cmd + Enter on Mac)">Format</button>
+        <div class="buttonsContainer">
+            <button onclick="formatJSON()" title="Press Ctrl + Enter to format (Cmd + Enter on Mac)">Format</button>
+            <button id="validate" title="Check if its a valid JSON" onclick="validateJSON()">Validate</button>
+        </div>
         <div class="title">
             Json Viewer and Formatter
         </div>
     </div>
-    <textarea id="jsonInput" placeholder="Paste or type JSON here..."></textarea>
+    
+    <textarea id="jsonInput" oninput="resetUI()" placeholder="Paste or type JSON here..."></textarea>
     <script>
         String.space = function(n) {
-            return " ".repeat(Math.max(0, n)); // Ensures 'n' is at least 0
+            return " ".repeat(Math.max(0, n));
         };
+        function validateJSON() {
+            formatJSON()
+             try {
+                const textarea = document.getElementById('jsonInput');
+                JSON.parse(textarea.value);
+                validate.style.backgroundColor = "green";
+                validate.style.color = "white";
+                validate.title = "Valid JSON"
+            } catch (e) {
+                validate.style.backgroundColor = "red";
+                validate.style.color = "white";
+                validate.title = e.message
+            }
+        }
         function formatJSON() {
             const textarea = document.getElementById('jsonInput');
             try {
@@ -69,11 +99,19 @@
                 alert('Invalid JSON: ' + error.message);
             }
         }
-        // Adding the shortcut for Cmd + Enter (Mac) or Ctrl + Enter (Windows)
+
+        let initialBgColor = validate.style.backgroundColor;
+        let initialTextColor = validate.style.color;
+        let initialTitle = validate.title;
+        function resetUI(){
+            validate.style.backgroundColor = initialBgColor;
+            validate.style.color = initialTextColor;
+            validate.title = initialTitle
+        }
         document.addEventListener('keydown', function(event) {
             if ((event.key === 'Enter') && (event.metaKey || event.ctrlKey)) {
-                event.preventDefault(); // Prevent default Enter action
-                formatJSON(); // Trigger the formatJSON function
+                event.preventDefault();
+                formatJSON();
             }
         });
     </script>
