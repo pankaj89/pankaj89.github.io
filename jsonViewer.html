@@ -85,9 +85,11 @@
                 JSON.parse(textarea.value);
                 validate.classList.remove("error");
                 validate.classList.add("success");
+                validate.title = "Its a valid JSON"
             } catch (e) {
                 validate.classList.remove("success");
                 validate.classList.add("error");
+                validate.title = e.message
             }
         }
         function formatJSON() {
@@ -110,6 +112,7 @@
         function resetUI(){
             validate.classList.remove("error");
             validate.classList.remove("success");
+            validate.title = "Check if its a valid JSON"
         }
         document.addEventListener('keydown', function(event) {
             if ((event.key === 'Enter') && (event.metaKey || event.ctrlKey)) {
